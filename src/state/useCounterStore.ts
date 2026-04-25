@@ -1,12 +1,24 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type CounterState = {
   count: number;
 };
 
-export const useCounterStore = create<CounterState>()(() => ({
-  count: 1,
-}));
+// create<>()(...)
+// https://github.com/pmndrs/zustand#persist-middleware
+export const useCounterStore = create<CounterState>()(
+  persist(
+    () => ({
+      count: 1,
+    }),
+    {
+      name: "counter",
+      // storage: createJSONStorage(() => localStorage), // default
+      // partialize: (state) => ({ count: state.count + 1 }),
+    },
+  ),
+);
 
 export const increment = () =>
   useCounterStore.setState((state) => ({ count: state.count + 1 }));
