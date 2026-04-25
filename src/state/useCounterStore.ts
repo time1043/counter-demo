@@ -2,6 +2,10 @@ import { create } from "zustand";
 
 type CounterState = {
   count: number;
+  actions: CounterActions;
+};
+
+type CounterActions = {
   increment: () => void;
   decrement: () => void;
   reset: () => void;
@@ -9,8 +13,9 @@ type CounterState = {
 
 export const useCounterStore = create<CounterState>()((set) => ({
   count: 1,
-  // increment: () => set((state) => ({ ...state, count: state.count + 1 })), // automatic merge
-  increment: () => set((state) => ({ count: state.count + 1 })),
-  decrement: () => set((state) => ({ count: state.count - 1 })),
-  reset: () => set({ count: 0 }),
+  actions: {
+    increment: () => set((state) => ({ count: state.count + 1 })),
+    decrement: () => set((state) => ({ count: state.count - 1 })),
+    reset: () => set({ count: 0 }),
+  },
 }));
