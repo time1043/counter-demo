@@ -55,17 +55,16 @@ function CountControls() {
         <button onClick={decrement}>- 1</button>
         <button onClick={reset}>Reset</button>
         <button onClick={increment}>+ 1</button>
-        <button onClick={() => incrementOutsideReact(increment)}>
-          +1 Outside
-        </button>
+        <button onClick={() => incrementOutsideReact()}>+1 Outside</button>
       </div>
       <p className="render-count">Renders: {renders}</p>
     </div>
   );
 }
 
-function incrementOutsideReact(increment: () => void) {
+function incrementOutsideReact() {
   console.log("Outside of React");
-  // Doesn't call hooks outside of react component, Only calls function by props
-  increment();
+  // Call zustand outside of react component by getState / setState
+  // useCounterStore.getState().increment();
+  useCounterStore.setState((state) => ({ count: state.count + 1 }));
 }
