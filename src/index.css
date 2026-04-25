@@ -64,3 +64,27 @@ button:last-child {
   background-color: black;
   color: white;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+}
+
+label {
+  font-size: 13px;
+  text-align: left;
+  font-weight: 600;
+}
+
+input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+input:focus {
+  border-color: #000;
+}
