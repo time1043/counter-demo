@@ -1,26 +1,19 @@
 import { useFlash } from "@/hooks/flash";
+import { useCounterStore } from "@/state/useCounterStore";
 import { useRef } from "react";
 
-export function Counter({
-  count,
-  increment,
-  decrement,
-  reset,
-}: {
-  count: number;
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}) {
+export function Counter() {
   return (
     <div className="counter-container">
-      <CountDisplay {...{ count }} />
-      <CountControls {...{ increment, decrement, reset }} />
+      <CountDisplay />
+      <CountControls />
     </div>
   );
 }
 
-function CountDisplay({ count }: { count: number }) {
+function CountDisplay() {
+  const { count } = useCounterStore();
+
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
@@ -32,15 +25,9 @@ function CountDisplay({ count }: { count: number }) {
   );
 }
 
-function CountControls({
-  increment,
-  decrement,
-  reset,
-}: {
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}) {
+function CountControls() {
+  const { increment, decrement, reset } = useCounterStore();
+
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
