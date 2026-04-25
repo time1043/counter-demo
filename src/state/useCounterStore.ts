@@ -2,20 +2,16 @@ import { create } from "zustand";
 
 type CounterState = {
   count: number;
-  actions: CounterActions;
 };
 
-type CounterActions = {
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-};
-
-export const useCounterStore = create<CounterState>()((set) => ({
+export const useCounterStore = create<CounterState>()(() => ({
   count: 1,
-  actions: {
-    increment: () => set((state) => ({ count: state.count + 1 })),
-    decrement: () => set((state) => ({ count: state.count - 1 })),
-    reset: () => set({ count: 0 }),
-  },
 }));
+
+export const increment = () =>
+  useCounterStore.setState((state) => ({ count: state.count + 1 }));
+
+export const decrement = () =>
+  useCounterStore.setState((state) => ({ count: state.count - 1 }));
+
+export const reset = () => useCounterStore.setState({ count: 0 });

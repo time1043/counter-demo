@@ -1,5 +1,10 @@
 import { useFlash } from "@/hooks/flash";
-import { useCounterStore } from "@/state/useCounterStore";
+import {
+  decrement,
+  increment,
+  reset,
+  useCounterStore,
+} from "@/state/useCounterStore";
 import { useRef } from "react";
 
 export function Counter() {
@@ -26,11 +31,6 @@ function CountDisplay() {
 }
 
 function CountControls() {
-  // Not need useShallow
-  const { increment, decrement, reset } = useCounterStore(
-    (state) => state.actions,
-  );
-
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
@@ -50,6 +50,6 @@ function CountControls() {
 function incrementOutsideReact() {
   console.log("Outside of React");
   // Call zustand outside of react component by getState / setState
-  // useCounterStore.getState().actions.increment();
+  // increment();
   useCounterStore.setState((state) => ({ count: state.count + 1 }));
 }
