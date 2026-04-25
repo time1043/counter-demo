@@ -1,26 +1,21 @@
 import { useFlash } from "@/hooks/flash";
+import { CounterProvider, useCounter } from "@/state/CounterContext";
 import { useRef } from "react";
 
-export function Counter({
-  count,
-  increment,
-  decrement,
-  reset,
-}: {
-  count: number;
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}) {
+export function Counter() {
   return (
-    <div className="counter-container">
-      <CountDisplay {...{ count }} />
-      <CountControls {...{ increment, decrement, reset }} />
-    </div>
+    <CounterProvider>
+      <div className="counter-container">
+        <CountDisplay />
+        <CountControls />
+      </div>
+    </CounterProvider>
   );
 }
 
-function CountDisplay({ count }: { count: number }) {
+function CountDisplay() {
+  const { count } = useCounter();
+
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
@@ -32,15 +27,9 @@ function CountDisplay({ count }: { count: number }) {
   );
 }
 
-function CountControls({
-  increment,
-  decrement,
-  reset,
-}: {
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}) {
+function CountControls() {
+  const { increment, decrement, reset } = useCounter();
+
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
@@ -62,5 +51,6 @@ function CountControls({
 function incrementOutsideReact(increment: () => void) {
   console.log("Outside of React");
   // Doesn't call hooks outside of react component, Only calls function by props
+  // const { increment } = useCounter(); // ❌
   increment();
 }
