@@ -1,7 +1,8 @@
 import { useFlash } from "@/hooks/flash";
 import {
   CounterProvider,
-  useCounter,
+  useCounterDispatch,
+  useCounterState,
   type CounterAction,
 } from "@/state/CounterContext";
 import { useRef, type Dispatch } from "react";
@@ -18,7 +19,7 @@ export function Counter() {
 }
 
 function CountDisplay() {
-  const { state } = useCounter();
+  const state = useCounterState();
 
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
@@ -32,7 +33,7 @@ function CountDisplay() {
 }
 
 function CountControls() {
-  const { dispatch } = useCounter();
+  const dispatch = useCounterDispatch();
 
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
@@ -55,6 +56,6 @@ function CountControls() {
 function incrementOutsideReact(dispatch: Dispatch<CounterAction>) {
   console.log("Outside of React");
   // Doesn't call hooks outside of react component, Only calls function by props
-  // const { dispatch } = useCounter(); // ❌
+  // const dispatch = useCounterDispatch(); // ❌
   dispatch({ type: "increment" });
 }
