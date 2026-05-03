@@ -1,6 +1,6 @@
 import { useFlash } from "@/hooks/flash";
 import { countAtom } from "@/state/counterAtom";
-import { useAtom, useSetAtom } from "jotai";
+import { getDefaultStore, useAtom, useSetAtom } from "jotai";
 import { useRef } from "react";
 
 export function Counter() {
@@ -41,17 +41,14 @@ function CountControls() {
         <button onClick={decrement}>- 1</button>
         <button onClick={reset}>Reset</button>
         <button onClick={increment}>+ 1</button>
-        <button onClick={() => incrementOutsideReact(increment)}>
-          +1 Outside
-        </button>
+        <button onClick={() => incrementOutsideReact()}>+1 Outside</button>
       </div>
       <p className="render-count">Renders: {renders}</p>
     </div>
   );
 }
 
-function incrementOutsideReact(increment: () => void) {
+function incrementOutsideReact() {
   console.log("Outside of React");
-  // Doesn't call hooks outside of react component, Only calls function by props
-  increment();
+  getDefaultStore().set(countAtom, (c) => c + 1);
 }
