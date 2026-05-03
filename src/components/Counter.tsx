@@ -1,6 +1,6 @@
 import { useFlash } from "@/hooks/flash";
 import { countAtom } from "@/state/counterAtom";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import { useRef } from "react";
 
 export function Counter() {
@@ -27,7 +27,7 @@ function CountDisplay() {
 }
 
 function CountControls() {
-  const [_, setCount] = useAtom(countAtom);
+  const setCount = useSetAtom(countAtom);
   const increment = () => setCount((c) => c + 1);
   const decrement = () => setCount((c) => c - 1);
   const reset = () => setCount(0);
