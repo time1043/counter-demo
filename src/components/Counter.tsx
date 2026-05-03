@@ -1,26 +1,20 @@
 import { useFlash } from "@/hooks/flash";
+import { countAtom } from "@/state/counterAtom";
+import { useAtom } from "jotai";
 import { useRef } from "react";
 
-export function Counter({
-  count,
-  increment,
-  decrement,
-  reset,
-}: {
-  count: number;
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}) {
+export function Counter() {
   return (
     <div className="counter-container">
-      <CountDisplay {...{ count }} />
-      <CountControls {...{ increment, decrement, reset }} />
+      <CountDisplay />
+      <CountControls />
     </div>
   );
 }
 
-function CountDisplay({ count }: { count: number }) {
+function CountDisplay() {
+  const [count] = useAtom(countAtom);
+
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
@@ -32,15 +26,12 @@ function CountDisplay({ count }: { count: number }) {
   );
 }
 
-function CountControls({
-  increment,
-  decrement,
-  reset,
-}: {
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}) {
+function CountControls() {
+  const [_, setCount] = useAtom(countAtom);
+  const increment = () => setCount((c) => c + 1);
+  const decrement = () => setCount((c) => c - 1);
+  const reset = () => setCount(0);
+
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
