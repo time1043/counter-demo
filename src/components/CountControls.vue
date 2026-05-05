@@ -12,19 +12,15 @@
 
 <script setup lang="ts">
 import { useFlash } from "@/composables/flash";
+import { count, decrement, increment, reset } from "@/state/counter";
 import { useTemplateRef } from "vue";
-
-const props = defineProps<{
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}>();
 
 const cardRef = useTemplateRef<HTMLElement>("cardRef");
 useFlash(cardRef);
 
 function incrementOutside() {
   console.log("Outside of Vue");
-  props.increment();
+  // Like preact signal, can mutate directly — no function reference needed
+  count.value++;
 }
 </script>
