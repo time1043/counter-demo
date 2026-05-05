@@ -1,46 +1,29 @@
 import { useFlash } from "@/hooks/flash";
 import { useRef } from "react";
+import { count, decrement, increment, reset } from "@/state/counterSignal";
 
-export function Counter({
-  count,
-  increment,
-  decrement,
-  reset,
-}: {
-  count: number;
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}) {
+export function Counter() {
   return (
     <div className="counter-container">
-      <CountDisplay {...{ count }} />
-      <CountControls {...{ increment, decrement, reset }} />
+      <CountDisplay />
+      <CountControls />
     </div>
   );
 }
 
-function CountDisplay({ count }: { count: number }) {
+function CountDisplay() {
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
   return (
     <div className="card" ref={cardRef}>
-      <h2 className="count-display">{count}</h2>
+      <h2 className="count-display">{count.value}</h2>
       <p className="render-count">Renders: {renders}</p>
     </div>
   );
 }
 
-function CountControls({
-  increment,
-  decrement,
-  reset,
-}: {
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}) {
+function CountControls() {
   const cardRef = useRef<HTMLDivElement>(null);
   const renders = useFlash(cardRef);
 
@@ -50,17 +33,15 @@ function CountControls({
         <button onClick={decrement}>- 1</button>
         <button onClick={reset}>Reset</button>
         <button onClick={increment}>+ 1</button>
-        <button onClick={() => incrementOutsideReact(increment)}>
-          +1 Outside
-        </button>
+        <button onClick={() => incrementOutsideReact()}>+1 Outside</button>
       </div>
       <p className="render-count">Renders: {renders}</p>
     </div>
   );
 }
 
-function incrementOutsideReact(increment: () => void) {
+function incrementOutsideReact() {
   console.log("Outside of React");
-  // Doesn't call hooks outside of react component, Only calls function by props
-  increment();
+  // With signals, can write directly from anywhere — no function reference needed
+  count.value++;
 }
