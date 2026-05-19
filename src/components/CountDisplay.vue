@@ -8,8 +8,9 @@
 <script setup lang="ts">
 import { useFlash } from "@/composables/flash";
 import { useTemplateRef } from "vue";
+import { useCounter } from "@/composables/useCounter";
 
-defineProps<{ count: number }>();
+const { count } = useCounter();
 
 const cardRef = useTemplateRef<HTMLElement>("cardRef");
 useFlash(cardRef);

@@ -13,18 +13,15 @@
 <script setup lang="ts">
 import { useFlash } from "@/composables/flash";
 import { useTemplateRef } from "vue";
+import { useCounter } from "@/composables/useCounter";
 
-const props = defineProps<{
-  increment: () => void;
-  decrement: () => void;
-  reset: () => void;
-}>();
+const { increment, decrement, reset } = useCounter();
 
 const cardRef = useTemplateRef<HTMLElement>("cardRef");
 useFlash(cardRef);
 
 function incrementOutside() {
   console.log("Outside of Vue");
-  props.increment();
+  increment();
 }
 </script>
